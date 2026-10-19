@@ -1,0 +1,1 @@
+"""Doctor management domain."""

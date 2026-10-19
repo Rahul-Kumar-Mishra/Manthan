@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: manthan-config
+  namespace: manthan
+data:
+  API_PREFIX: /api/v1
+  REDIS_URL: redis://redis:6379/0

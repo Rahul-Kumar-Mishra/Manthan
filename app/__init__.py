@@ -1,0 +1,1 @@
+"""Manthan application package."""

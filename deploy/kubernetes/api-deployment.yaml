@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: manthan-api
+  namespace: manthan
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: manthan-api
+  template:
+    metadata:
+      labels:
+        app: manthan-api
+    spec:
+      containers:
+        - name: api
+          image: manthan-api:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: manthan-config
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: manthan-secrets
+                  key: database-url
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: manthan-secrets
+                  key: secret-key
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health/ready
+              port: 8000
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: 8000
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

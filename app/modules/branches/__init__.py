@@ -1,0 +1,1 @@
+"""Hospital branch domain."""

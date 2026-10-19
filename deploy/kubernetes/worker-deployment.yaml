@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: manthan-worker
+  namespace: manthan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: manthan-worker
+  template:
+    metadata:
+      labels:
+        app: manthan-worker
+    spec:
+      containers:
+        - name: worker
+          image: manthan-worker:latest
+          command: ["python", "-m", "app.workers.runner"]
+          envFrom:
+            - configMapRef:
+                name: manthan-config

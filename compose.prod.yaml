@@ -1,0 +1,8 @@
+services:
+  api:
+    restart: unless-stopped
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in the deployment environment}
+    read_only: true
+    tmpfs:
+      - /tmp
