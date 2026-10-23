@@ -3,3 +3,4 @@ git
 github
 docker-workflow
 credentials-binding
+pipeline-stage-view
