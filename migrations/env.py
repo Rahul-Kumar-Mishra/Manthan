@@ -7,7 +7,10 @@ from app.core.config import settings
 from app.db.base import Base
 
 config = context.config
-alembic_url = settings.database_url.replace("+aiosqlite", "")
+# Callers (e.g. the Postgres test harness) can target another database by passing
+# `Config(attributes={"database_url": ...})`; otherwise use the app's configured URL.
+database_url = config.attributes.get("database_url") or settings.database_url
+alembic_url = database_url.replace("+aiosqlite", "")
 config.set_main_option("sqlalchemy.url", alembic_url)
 if config.config_file_name:
     fileConfig(config.config_file_name)
