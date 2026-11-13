@@ -32,4 +32,6 @@ uv run pytest
 uv run ruff check .
 ```
 
+`uv run pytest -m "not postgres"` is the fast in-memory SQLite loop. `uv run pytest -m postgres` runs the tests that need real Postgres semantics (locks, the GiST exclusion constraint) against a database built by `alembic upgrade head`: a throwaway `postgres:17-alpine` testcontainer by default (needs Docker), or `TEST_DATABASE_URL` if set. These tests are skipped when neither is available. Tests opt in by using the `pg_engine`, `pg_session_factory` or `pg_client` fixtures, which mark them `postgres` automatically.
+
 Redis, workers, billing, prescriptions, notifications, and other Level 2/3 infrastructure remain dormant scaffolding and are not required to run Level 1.
